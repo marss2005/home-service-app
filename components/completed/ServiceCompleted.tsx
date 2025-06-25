@@ -11,9 +11,39 @@ import { Separator } from '@/components/ui/separator';
 import { Star, Download, MessageCircle, Calendar, MapPin, CheckCircle, Receipt, Phone } from 'lucide-react';
 import Link from 'next/link';
 
+interface Service {
+	id: string;
+	service: string;
+	completedDate: string;
+	completedTime: string;
+	technician: {
+		name: string;
+		avatar: string;
+		rating: number;
+		experience: string;
+	};
+	address: string;
+	duration: string;
+	invoice: {
+		subtotal: number;
+		tax: number;
+		total: number;
+		items: Array<{
+			description: string;
+			amount: number;
+		}>;
+	};
+	paymentMethod: string;
+	warranty: string;
+	rating: number | null;
+	feedback: string;
+	beforeAfterPhotos: boolean;
+	workDone: string[];
+}
+
 export default function ServiceCompleted() {
 	const searchParams = useSearchParams();
-	const [services, setServices] = useState<any[]>([]);
+	const [services, setServices] = useState<Service[]>([]);
 	const [feedbackText, setFeedbackText] = useState('');
 	const [selectedRating, setSelectedRating] = useState(0);
 
@@ -75,7 +105,7 @@ export default function ServiceCompleted() {
 		}
 	}, [searchParams]);
 
-	const getDurationByService = (service: string) => {
+	const getDurationByService = (service: string): string => {
 		const serviceLower = service.toLowerCase();
 		if (serviceLower.includes('renovation') || serviceLower.includes('bathroom'))
 			return '3 days';
@@ -86,7 +116,7 @@ export default function ServiceCompleted() {
 		return '2-3 hours';
 	};
 
-	const getWorkDoneByService = (service: string) => {
+	const getWorkDoneByService = (service: string): string[] => {
 		const serviceLower = service.toLowerCase();
 		if (serviceLower.includes('ac')) {
 			return [
