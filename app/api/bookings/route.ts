@@ -5,15 +5,18 @@ import Booking from '@/lib/models/Booking';
 export async function POST(request: NextRequest) {
   try {
     console.log("🔍 Booking API called");
+    console.log("🌍 Environment:", process.env.NODE_ENV);
+    console.log("🔗 MongoDB URI exists:", !!process.env.MONGODB_URI);
     
     // Parse request body first
     const body = await request.json();
     console.log("📝 Request body:", body);
     
-    // Validate required fields (update field names)
+    // Validate required fields
     const requiredFields = ['name', 'email', 'phone', 'address', 'preferredDate', 'preferredTime', 'selectedService'];
     for (const field of requiredFields) {
       if (!body[field]) {
+        console.log(`❌ Missing field: ${field}`);
         return NextResponse.json({
           success: false,
           message: `Missing required field: ${field}`
@@ -56,10 +59,15 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error("❌ Booking API Error:", error);
+    console.error("❌ Error name:", (error as Error).name);
+    console.error("❌ Error message:", (error as Error).message);
+    console.error("❌ Error stack:", (error as Error).stack);
+    
     return NextResponse.json({
       success: false,
       message: 'Failed to create booking: ' + (error as Error).message,
-      error: process.env.NODE_ENV === 'development' ? error : undefined
+      errorName: (error as Error).name,
+      environment: process.env.NODE_ENV
     }, { status: 500 });
   }
 }

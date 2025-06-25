@@ -6,16 +6,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  swcMinify: false,
-  compiler: {
-    removeConsole: false,
-  },
   experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
-  // Tambah ini untuk handle dynamic pages
-  generateBuildId: async () => {
-    return 'build-' + Date.now()
+    serverComponentsExternalPackages: ['mongoose']
   },
   webpack: (config) => {
     config.resolve.fallback = {
