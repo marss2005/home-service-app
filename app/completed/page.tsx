@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import ServiceCompleted from '@/components/completed/ServiceCompleted';
 
-// Disable static generation for this page
+// Disable static generation
 export const dynamic = 'force-dynamic';
 
 export default function CompletedPage() {

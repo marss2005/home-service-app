@@ -13,6 +13,10 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  // Tambah ini untuk handle dynamic pages
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
