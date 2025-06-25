@@ -3,11 +3,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
+  experimental: {
+    serverComponentsExternalPackages: ['mongoose']
+  }
 };
 
 module.exports = nextConfig;
