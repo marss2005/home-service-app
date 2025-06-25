@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,14 +37,15 @@ const paymentMethods = [
 
 export default function PaymentMethod() {
 	const searchParams = useSearchParams();
-	const [selectedMethod, setSelectedMethod] = useState('shopeepay');
+	const [selectedMethod, setSelectedMethod] = useState('');
 
-	// Get data from URL parameters
-	const serviceTitle = searchParams.get('service') || 'Home Service';
-	const servicePrice = parseFloat(searchParams.get('price') || '0');
-	const technicianName = searchParams.get('technician') || 'Professional Technician';
-	const serviceDate = searchParams.get('date') || 'To be scheduled';
-	const customerAddress = searchParams.get('address') || 'Customer Address';
+	// Fix: Add null check for searchParams
+	const serviceTitle = searchParams?.get('service') || 'Home Service';
+	const servicePrice = parseFloat(searchParams?.get('price') || '0');
+	const technicianName = searchParams?.get('technician') || 'Professional Technician';
+	const serviceDate = searchParams?.get('date') || 'To be scheduled';
+	const customerAddress = searchParams?.get('address') || 'Customer Address';
+	const bookingId = searchParams?.get('bookingId') || '';
 
 	const tax = servicePrice * 0.1; // 10% tax
 	const total = servicePrice + tax;
