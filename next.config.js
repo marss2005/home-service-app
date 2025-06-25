@@ -6,10 +6,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    serverComponentsExternalPackages: ['mongoose']
+  // Remove experimental mongoose config for now
+  swcMinify: false,
+  compiler: {
+    removeConsole: false,
   },
-  
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -19,10 +20,6 @@ const nextConfig = {
     };
     return config;
   },
-  // Ignore specific pages that cause build issues
-  async redirects() {
-    return [];
-  }
 };
 
 module.exports = nextConfig;
