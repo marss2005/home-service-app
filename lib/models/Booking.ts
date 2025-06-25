@@ -6,13 +6,15 @@ const BookingSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   address: { type: String, required: true },
   city: { type: String, required: true },
-  description: String,
+  description: { type: String },
   preferredDate: { type: String, required: true },
   preferredTime: { type: String, required: true },
   selectedService: { type: String, required: true },
-  selectedTechnician: String,
+  selectedTechnician: { type: String },
   status: { type: String, default: 'pending' },
-  createdAt: { type: Date, default: Date.now },
+  price: { type: Number }
+}, {
+  timestamps: true
 });
 
 export default mongoose.models.Booking || mongoose.model('Booking', BookingSchema);
