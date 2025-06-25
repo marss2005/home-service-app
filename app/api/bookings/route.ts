@@ -1,30 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Temporary: Comment out MongoDB imports to fix build
-// import dbConnect from '@/lib/mongodb';
-// import Booking from '@/lib/models/Booking';
+import dbConnect from '@/lib/mongodb';
+import Booking from '@/lib/models/Booking';
 
 export async function POST(request: NextRequest) {
   try {
     console.log("🔍 API called");
-
+    
+    // Enable MongoDB connection
+    await dbConnect();
+    
     const body = await request.json();
     console.log("📝 Request body:", body);
     
-    // Temporary: Return mock response instead of database save
-    const mockBooking = {
-      _id: Date.now().toString(),
-      ...body,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    };
+    // Save to MongoDB instead of mock
+    const booking = new Booking(body);
+    const savedBooking = await booking.save();
 
-    console.log("💾 Mock booking created:", mockBooking._id);
+    console.log("💾 Booking saved to MongoDB:", savedBooking._id);
 
     return NextResponse.json({
       success: true,
-      data: mockBooking,
-      message: 'Booking created successfully (mock)'
+      data: savedBooking,
+      message: 'Booking created successfully'
     }, { status: 201 });
 
   } catch (error) {
