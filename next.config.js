@@ -6,10 +6,12 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Remove experimental mongoose config for now
   swcMinify: false,
   compiler: {
     removeConsole: false,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
   },
   webpack: (config) => {
     config.resolve.fallback = {

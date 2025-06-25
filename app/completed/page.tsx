@@ -1,20 +1,13 @@
-import { Metadata } from 'next';
+import { Suspense } from 'react';
 import ServiceCompleted from '@/components/completed/ServiceCompleted';
-import PageHeader from '@/components/ui/PageHeader';
 
-export const metadata: Metadata = {
-  title: 'Service Completed - HomeServe Pro',
-  description: 'View details of your completed services and provide feedback.',
-};
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
 
 export default function CompletedPage() {
   return (
-    <div className="gradient-bg min-h-screen">
-      <PageHeader 
-        title="Service Completed"
-        description="View your completed services, invoices, and provide feedback"
-      />
+    <Suspense fallback={<div>Loading...</div>}>
       <ServiceCompleted />
-    </div>
+    </Suspense>
   );
 }
