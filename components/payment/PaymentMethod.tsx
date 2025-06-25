@@ -39,13 +39,20 @@ export default function PaymentMethod() {
 	const searchParams = useSearchParams();
 	const [selectedMethod, setSelectedMethod] = useState('');
 
-	// Fix: Add null check for searchParams
-	const serviceTitle = searchParams?.get('service') || 'Home Service';
-	const servicePrice = parseFloat(searchParams?.get('price') || '0');
-	const technicianName = searchParams?.get('technician') || 'Professional Technician';
-	const serviceDate = searchParams?.get('date') || 'To be scheduled';
-	const customerAddress = searchParams?.get('address') || 'Customer Address';
-	const bookingId = searchParams?.get('bookingId') || '';
+	if (!searchParams) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<div>Loading payment details...</div>
+			</div>
+		);
+	}
+
+	const serviceTitle = searchParams.get('service') || 'Home Service';
+	const servicePrice = parseFloat(searchParams.get('price') || '0');
+	const technicianName = searchParams.get('technician') || 'Professional Technician';
+	const serviceDate = searchParams.get('date') || 'To be scheduled';
+	const serviceAddress = searchParams.get('address') || 'Customer Address';
+	const bookingId = searchParams.get('bookingId') || '';
 
 	const tax = servicePrice * 0.1; // 10% tax
 	const total = servicePrice + tax;
@@ -60,7 +67,7 @@ export default function PaymentMethod() {
 			price: total.toString(),
 			technician: technicianName,
 			date: serviceDate,
-			address: customerAddress,
+			address: serviceAddress,
 			method: selectedMethod,
 			status: 'confirmed'
 		});
@@ -177,7 +184,7 @@ export default function PaymentMethod() {
 								</div>
 								<div className='flex justify-between text-sm'>
 									<span className='text-muted-foreground'>Address:</span>
-									<span>{customerAddress}</span>
+									<span>{serviceAddress}</span>
 								</div>
 								<div className='flex justify-between text-sm'>
 									<span className='text-muted-foreground'>Technician:</span>
