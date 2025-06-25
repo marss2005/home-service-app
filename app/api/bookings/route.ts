@@ -35,25 +35,23 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    // Return mock data
-    const mockBookings = [
-      {
-        _id: "mock-1",
-        name: "John Doe",
-        service: "AC Repair",
-        status: "pending",
-        createdAt: new Date().toISOString()
-      }
-    ];
+    // Enable MongoDB connection
+    await dbConnect();
+    
+    // Fetch real data from MongoDB
+    const bookings = await Booking.find().sort({ createdAt: -1 }).limit(50);
+    
+    console.log("📋 Fetched bookings:", bookings.length);
     
     return NextResponse.json({
       success: true,
-      data: mockBookings
+      data: bookings
     });
   } catch (error) {
+    console.error("❌ GET Error:", error);
     return NextResponse.json({
       success: false,
-      message: 'Failed to fetch bookings'
+      message: 'Failed to fetch bookings: ' + (error as Error).message
     }, { status: 500 });
   }
 }
